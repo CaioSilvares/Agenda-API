@@ -8,7 +8,7 @@ import java.util.List;
 
 //TODO: example
 @RestController
-@RequestMapping("api/contacts") //value = api/contacts
+@RequestMapping("contacts") //value = contacts
 public class ContactController {
     private ContactRepository contactRepository;
 
@@ -22,8 +22,21 @@ public class ContactController {
         return savedContact;
     }
 
-    @GetMapping("all") //mirar na rota api/contacts/all
+    @GetMapping
     public List<Contact> getAll() {
         return contactRepository.findAll();
     }
+
+    @GetMapping("/{id}")
+    public Contact getContactById(@PathVariable Long id) {
+        var searchById = contactRepository.findById(id);
+
+        if(searchById.isEmpty()) {
+            return null;
+        }
+
+        var contact = searchById.get();
+        return contact;
+    }
+
 }
